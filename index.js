@@ -1,5 +1,10 @@
 const express = require('express')
 const app = express()
+const productRouter = require('./src/route/products')
+
+app.use(express.json());
+
+app.use('/products', productRouter)
 
 app.get('/',(req,res)=>{
     res.json({
