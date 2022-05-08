@@ -1,12 +1,11 @@
 const express = require('express')
-const router = express.Router();
-const Controller = require('../controller/products')
-const controller = new Controller();
+const router = express.Router()
+const newController = require('../controller/products2')
 
 router
-    .get('/', controller.getData)
-    .post('/', controller.insertData)
-    .put('/:id', controller.updateData)
-    .delete('/:id', controller.deleteData)
+    .get('/:id?', newController.getData)
+    .post('/', newController.insertData)
+    .put('/:id', newController.updateData)
+    .delete('/:id', newController.deleteData)
 
 module.exports = router

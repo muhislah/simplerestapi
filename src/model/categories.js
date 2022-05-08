@@ -1,10 +1,8 @@
 const pool = require('../config/db')
 
 class Models {
-    getData = ({search, sort, sortby, page, limit}) => { 
-        let query = 'SELECT id,name,stock,price FROM products'+search+sortby+sort+page+limit
-        console.log(query)
-        return pool.query(query)};
+    getData = () => { 
+        return pool.query('SELECT id, name FROM categories')};
     insertData = ({name, description, stock, price, category}) => { 
         return pool.query(  `INSERT INTO products (name, description, stock, price, category_id) VALUES 
                             ($1,$2,$3,$4,$5)`,[name, description, stock, price, category])

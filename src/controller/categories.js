@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express()
-const Models = require('../model/products')
+const Models = require('../model/categories')
 const model = new Models();
 const errorCode = require('../helper/errorSql');
 const clause = require('../helper/getClause')
@@ -8,9 +8,7 @@ const clause = require('../helper/getClause')
 class Controller {
     getData = async (req, res) => {
         try {
-            const { search, sortby, sort, limit, page} = req.query
-            const fullQuery = clause(search, sort, sortby, page, limit)
-            const result = await model.getData(fullQuery);
+            const result = await model.getData();
             res.json({
                 data: result.rows
             })
