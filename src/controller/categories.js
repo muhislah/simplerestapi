@@ -10,6 +10,7 @@ class Controller {
                 data: result.rows
             });
         } catch (err) {
+            console.log(err);
             const code = err.code;
             res.json({
                 message : "there is an error",
