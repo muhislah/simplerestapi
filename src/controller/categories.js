@@ -19,7 +19,7 @@ class Controller {
     };
     insertData = async (req, res) => {
         try {
-            const result = await model.insertData(req.body);
+            await model.insertData(req.body);
             const {
                 rows: data
             } = await model.getData();
@@ -34,7 +34,7 @@ class Controller {
     updateData = async (req, res) => {
         try {
             const id = +req.params.id;
-            const result = await model.updateData({ id , ...req.body });
+            await model.updateData({ id , ...req.body });
             const { rows: data } = await model.getData();
             res.json({
                 message: "berhasil update data",
@@ -47,7 +47,7 @@ class Controller {
     deleteData = async (req, res) => {
         try {
             const id = +req.params.id;
-            const result = await model.deleteData(id);
+            await model.deleteData(id);
             const { rows: data } = await model.getData();
             res.json({
                 message: "berhasil menghapus data index ke-"+id,

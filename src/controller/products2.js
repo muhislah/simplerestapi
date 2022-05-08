@@ -41,7 +41,7 @@ module.exports.getData = async (req, res, next) => {
 //insert data
 module.exports.insertData = async (req, res, next) => {
         try {
-            const result = await insertData(req.body);
+            await insertData(req.body);
             res.json(response.okInsert(req.body));
         } catch (err) {
             next(errorInternal);
@@ -51,7 +51,7 @@ module.exports.insertData = async (req, res, next) => {
 module.exports.updateData = async (req, res, next) => {
     try {
         const id = +req.params.id;
-        const result = await updateData({ id , ...req.body });
+        await updateData({ id , ...req.body });
         res.json(response.okUpdate(id));
     } catch (err) {
         next(errorInternal);
@@ -61,7 +61,7 @@ module.exports.updateData = async (req, res, next) => {
 module.exports.deleteData = async (req, res, next) => {
     try {
         const id = +req.params.id;
-        const result = await deleteData(id);
+        await deleteData(id);
         res.json(response.okDelete(id));
     } catch (err) {
         next(errorInternal);

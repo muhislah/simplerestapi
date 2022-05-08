@@ -66,6 +66,6 @@ const errorCode = {
     "2203D": "too_many_json_array_elements",
     "2203E": "too_many_json_object_members",
     "2203F": "sql_json_scalar_required"
-}
+};
 
-module.exports = errorCode
+module.exports = errorCode;

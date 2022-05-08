@@ -3,12 +3,8 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
-const helmet = require("helmet");
-const xss = require("xss-clean");
-
 const productRouter = require("./src/route/products");
 const categoriesRouter = require("./src/route/categories");
-const createError = require("http-errors");
 
 const port = process.env.port || 3000;
 
@@ -16,7 +12,6 @@ const port = process.env.port || 3000;
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
-app.use(xss());
 
 app.use("/products", productRouter);
 app.use("/categories", categoriesRouter);
