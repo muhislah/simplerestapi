@@ -1,7 +1,7 @@
 const response = require("../helper/response");
 const createError = require("http-errors");
 const errorInternal = new createError.InternalServerError();
-const { getData, insertData, updateData, deleteData } = require("../model/categories")
+const { getData, insertData, updateData, deleteData } = require("../model/categories");
 
 module.exports.getData = async (req, res, next) => {
     try {

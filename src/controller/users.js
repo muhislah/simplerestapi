@@ -3,7 +3,6 @@ const saltRounds = 10;
 const { addUser } = require("../model/users");
 const response = require("../helper/response");
 const createError = require("http-errors");
-const errorInternal = new createError.InternalServerError();
 
 module.exports.addUser = async (req, res, next) => {
     try {
