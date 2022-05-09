@@ -2,7 +2,6 @@ const pool = require("../config/db");
 
 const getData = ({ id }) => {
     const query = id ? `SELECT p.id, p.name, p.description, p.price, p.stock, c.name as category_name , p.created_at, p.modified_at FROM categories AS c JOIN products as p ON c.id = p.category_id WHERE p.id = ${id}` : "SELECT id, name, stock, price FROM products";
-    console.log(query);
     return pool.query(query);
 };
 

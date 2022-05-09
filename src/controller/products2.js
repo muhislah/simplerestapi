@@ -31,8 +31,7 @@ module.exports.getData = async (req, res, next) => {
         res.end();
         }
     } catch (err) {
-        console.log(err)
-        next(createError.BadGateway());
+        next(createError.BadRequest());
     }
 };
 

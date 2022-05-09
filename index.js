@@ -22,18 +22,22 @@ app.use((err, req, res, next)=> {
     if (err){
         res.status(err.status).json({
             status : err.statusCode,
+            error : true,
             message : err.message
+            
         });
+        res.end();
+    }else{
+        next();
     }
-    next();
 });
 
-app.use((req,res,next) => {
+app.use((req,res) => {
     res.status(404).json({
         status : 404,
+        error : true,
         message : "Page Not Found"
     });
-    next();
 }); 
 
 app.listen(port,()=> {
