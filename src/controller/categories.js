@@ -1,68 +1,55 @@
-const Models = require("../model/categories");
-const model = new Models();
-const errorCode = require("../helper/errorSql");
+const response = require("../helper/response");
+const createError = require("http-errors");
+const errorInternal = new createError.InternalServerError();
+const { getData, insertData, updateData, deleteData } = require("../model/categories")
 
-class Controller {
-    getData = async (req, res) => {
-        try {
-            const result = await model.getData();
-            res.json({
-                data: result.rows
-            });
-        } catch (err) {
-            console.log(err);
-            const code = err.code;
-            res.json({
-                message : "there is an error",
-                description : errorCode[code]
-            });
-        }
-    };
-    insertData = async (req, res) => {
-        try {
-            await model.insertData(req.body);
-            const {
-                rows: data
-            } = await model.getData();
-            res.json({
-                message: "berhasil tambah data",
-                data: data
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    updateData = async (req, res) => {
-        try {
-            const id = +req.params.id;
-            await model.updateData({ id , ...req.body });
-            const { rows: data } = await model.getData();
-            res.json({
-                message: "berhasil update data",
-                data: data
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    deleteData = async (req, res) => {
-        try {
-            const id = +req.params.id;
-            await model.deleteData(id);
-            const { rows: data } = await model.getData();
-            res.json({
-                message: "berhasil menghapus data index ke-"+id,
-                data: data
-            });
-        } catch (err) {
-            const code = err.code;
-            console.log(err);
-            res.json({
-                message : "there is an error",
-                description : errorCode[code]
-            });
-        }
-    };
-}
+module.exports.getData = async (req, res, next) => {
+    try {
+        const result = await getData();
+        res.json(response.okGet(result.rows));
+    }catch(err){
+        console.log(err);
+        next(errorInternal);
+    }
+    
+};
 
-module.exports = Controller;
+module.exports.insertData = async (req, res, next) => {
+    try {
+        const { id, name } = req.body;
+        await insertData(id, name);
+        res.json(response.okInsert(req.body));
+    }catch(err){
+        console.log(err);
+        next(errorInternal);
+    }
+    
+};
+
+module.exports.updateData = async (req, res, next) => {
+    try {
+        const { name } = req.body;
+        const id = req.params.id;
+        const result = await updateData(id, name);
+        if ( result.rowCount == 0){
+            next(createError.BadRequest());
+        }
+        res.json(response.okUpdate(id));
+    }catch(err){
+        console.log(err);
+        next(errorInternal);
+    }
+    
+};
+
+module.exports.deleteData = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        await deleteData(id);
+        res.json(response.okDelete(id));
+    }catch(err){
+        console.log(err);
+        next(errorInternal);
+    }
+    
+};

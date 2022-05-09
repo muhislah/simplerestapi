@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const productRouter = require("./src/route/products");
 const categoriesRouter = require("./src/route/categories");
+const usersRouter = require("./src/route/users");
 
 const port = process.env.port || 3000;
 
@@ -15,24 +16,25 @@ app.use(morgan("dev"));
 
 app.use("/products", productRouter);
 app.use("/categories", categoriesRouter);
+app.use("/auth", usersRouter);
 
-app.use((err, req, res, next)=>{
+app.use((err, req, res, next)=> {
     if (err){
         res.status(err.status).json({
-            status : 500,
-            message : "Internal Server Error"
+            status : err.statusCode,
+            message : err.message
         });
-    }else{
-        next();
     }
+    next();
 });
 
-app.use((req,res)=>{
+app.use((req,res,next) => {
     res.status(404).json({
         status : 404,
         message : "Page Not Found"
     });
-});
+    next();
+}); 
 
 app.listen(port,()=> {
     console.log("app running on port 3000");

@@ -1,6 +1,4 @@
 const { getData, insertData, updateData, deleteData , searchData , paginationData , count} = require("../model/products2");
-const express = require("express");
-const app = express();
 const response = require("../helper/response");
 const createError = require("http-errors");
 const errorInternal = new createError.InternalServerError();
@@ -9,18 +7,17 @@ const errorInternal = new createError.InternalServerError();
 module.exports.getData = async (req, res, next) => {
     try {
         const { id } = req.params;
-        let { search , limit, page } = req.query;
+        let { sortby, sort , search , limit, page } = req.query;
         if (search) {
             const result = await searchData(search);
             res.json(response.okSearch(result.rows, search));
         }else{
-            if ( limit && page){
-                const result = await paginationData(page, limit);
-                const { rows : [{count : countData}]} = await count();
-                res.json(response.okPagination(result.rows, page, limit, +countData));
-            } else if ( limit && !page) {
-                page = 1;
-                const result = await paginationData(page, limit);
+            if ( sortby || sort || limit || page){
+                sortby = sortby || "id";
+                sort = sort || "ASC";
+                limit = limit || 5;
+                page = page || 1;
+                const result = await paginationData(sortby, sort, page, limit);
                 const { rows : [{count : countData}]} = await count();
                 res.json(response.okPagination(result.rows, page, limit, +countData));
             } else {

@@ -33,9 +33,9 @@ module.exports.okPagination = (data, page, limit, count) => {
     response.status = 200;
     response.message = "Pagination Detail";
     response.total_data = count;
-    response.total_page = Math.floor(count / limit);
-    response.page = page;
-    response.limit = limit;
+    response.total_page = Math.ceil(count / limit);
+    response.page = +page;
+    response.limit = +limit;
     response.data = data;
     return response; 
 };

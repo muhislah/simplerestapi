@@ -9,8 +9,8 @@ const searchData = (key) => {
     return pool.query(`SELECT id, name,stock,price FROM products WHERE LOWER(name) LIKE LOWER('%${key}%')`);
 };
 
-const paginationData = (page, limit) => {
-    return pool.query(`SELECT id, name,stock, price FROM products OFFSET ${(page-1)*limit} LIMIT ${limit}`);
+const paginationData = (sortby, sort, page, limit) => {
+    return pool.query(`SELECT id, name,stock, price FROM products ORDER BY ${sortby} ${sort} OFFSET ${(page-1)*limit} LIMIT ${limit}`);
 };
 
 const count = () => {
