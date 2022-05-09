@@ -51,8 +51,9 @@ module.exports.updateData = async (req, res, next) => {
         const result = await updateData({ id , ...req.body });
         if (result.rowCount == 0){
             next(createError.BadRequest());
+        }else{
+            res.json(response.okUpdate(id));
         }
-        res.json(response.okUpdate(id));
     } catch (err) {
         next(errorInternal);
     }
@@ -61,8 +62,13 @@ module.exports.updateData = async (req, res, next) => {
 module.exports.deleteData = async (req, res, next) => {
     try {
         const id = +req.params.id;
-        await deleteData(id);
-        res.json(response.okDelete(id));
+        const result = await deleteData(id);
+        if (result.rowCount == 0){
+            next(createError.BadRequest());
+        }else {
+            res.json(response.okDelete(id));
+        }
+        
     } catch (err) {
         next(errorInternal);
     }
