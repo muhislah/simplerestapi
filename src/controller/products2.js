@@ -48,7 +48,10 @@ module.exports.insertData = async (req, res, next) => {
 module.exports.updateData = async (req, res, next) => {
     try {
         const id = +req.params.id;
-        await updateData({ id , ...req.body });
+        const result = await updateData({ id , ...req.body });
+        if (result.rowCount == 0){
+            next(createError.BadRequest());
+        }
         res.json(response.okUpdate(id));
     } catch (err) {
         next(errorInternal);
